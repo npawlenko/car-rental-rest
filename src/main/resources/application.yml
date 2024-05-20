@@ -1,0 +1,23 @@
+JWT_SECRET: ccb68bea76418976a664e172175eb5fd2d8b66ea01e74f50c6d14c520a13fd74
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: car-rental
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/carrental
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  liquibase:
+    change-log: classpath:liquibase/master.xml
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/carrental
+    user: postgres
+    password: postgres
+  profiles:
+    active: dev
