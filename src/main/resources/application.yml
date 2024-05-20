@@ -19,5 +19,3 @@ spring:
     url: jdbc:postgresql://localhost:5433/carrental
     user: postgres
     password: postgres
-  profiles:
-    active: dev
