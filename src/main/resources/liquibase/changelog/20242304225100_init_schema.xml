@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet id="20242304225100_0" author="npawlenko">
+        <createSequence sequenceName="ROLES_SEQ" />
+    </changeSet>
+
+    <changeSet id="20242304225100_1" author="npawlenko">
+        <createTable tableName="ROLES">
+            <column name="ROLE_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20242304225100_2" author="npawlenko">
+        <createSequence sequenceName="USERS_SEQ" />
+    </changeSet>
+
+    <changeSet id="20242304225100_3" author="npawlenko">
+        <createTable tableName="USERS">
+            <column name="USER_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="FIRSTNAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LASTNAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USERNAME" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="PASSWORD" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20242304225100_4" author="npawlenko">
+        <createSequence sequenceName="USERS_ROLES_SEQ" />
+    </changeSet>
+
+    <changeSet id="20242304225100_5" author="npawlenko">
+        <createTable tableName="USERS_ROLES">
+            <column name="USER_ID" type="BIGINT">
+                <constraints foreignKeyName="FK_Users_roles_USER_ID" references="Users(USER_ID)"/>
+            </column>
+            <column name="ROLE_ID" type="BIGINT">
+                <constraints foreignKeyName="FK_Users_roles_ROLE_ID" references="Roles(ROLE_ID)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20242304225100_6" author="npawlenko">
+        <createSequence sequenceName="CARS_SEQ" />
+    </changeSet>
+
+    <changeSet id="20242304225100_7" author="npawlenko">
+        <createTable tableName="CARS">
+            <column name="CAR_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="MODEL" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TRANSMISSION" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COLOR" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MILEAGE" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="YEAR_OF_PRODUCTION" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FUEL" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SECONDARY_FUEL" type="VARCHAR(255)"/>
+            <column name="DRIVE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AIR_CONDITIONING" type="BOOLEAN"/>
+            <column name="PRICE_PER_HOUR" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PICTURE" type="BYTEA"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20242304225100_8" author="npawlenko">
+        <createSequence sequenceName="RENTALS_SEQ" />
+    </changeSet>
+
+    <changeSet id="20242304225100_9" author="npawlenko">
+        <createTable tableName="RENTALS">
+            <column name="RENTAL_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="DATE_FROM" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DATE_TO" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CAR_ID" type="BIGINT">
+                <constraints foreignKeyName="FK_RENTALS_CAR_ID" references="CARS(CAR_ID)" nullable="false"/>
+            </column>
+            <column name="USER_ID" type="BIGINT">
+                <constraints foreignKeyName="FK_RENTALS_ROLE_ID" references="USERS(USER_ID)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

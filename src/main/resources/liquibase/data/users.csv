@@ -1,0 +1,2 @@
+USER_ID;FIRSTNAME;LASTNAME;USERNAME;PASSWORD
+nextval('users_seq');Admin;Admin;admin;$2a$10$lH7ql85PypF8zeAVJZD4..kGbs0UbmbPc.9cdjfekh2XmL6IMWWdC

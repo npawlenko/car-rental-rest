@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet id="LOAD_ROLES" author="npawlenko">
+        <loadData tableName="ROLES" file="liquibase/data/roles.csv" separator=";">
+            <column name="ROLE_ID" type="computed" />
+            <column name="NAME" type="VARCHAR" />
+        </loadData>
+    </changeSet>
+
+    <changeSet id="LOAD_USERS" author="npawlenko">
+        <loadData tableName="USERS" file="liquibase/data/users.csv" separator=";">
+            <column name="USER_ID" type="COMPUTED" />
+            <column name="FIRSTNAME" type="VARCHAR" />
+            <column name="LASTNAME" type="VARCHAR" />
+            <column name="USERNAME" type="VARCHAR" />
+            <column name="PASSWORD" type="VARCHAR" />
+        </loadData>
+    </changeSet>
+
+    <changeSet id="LOAD_USERS_ROLES" author="npawlenko">
+        <insert tableName="USERS_ROLES">
+            <column name="USER_ID" valueSequenceCurrent="USERS_SEQ" />
+            <column name="ROLE_ID" valueSequenceCurrent="ROLES_SEQ" />
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
