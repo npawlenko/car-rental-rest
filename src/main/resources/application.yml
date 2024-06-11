@@ -1,5 +1,4 @@
 JWT_SECRET: ccb68bea76418976a664e172175eb5fd2d8b66ea01e74f50c6d14c520a13fd74
-
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -19,3 +18,8 @@ spring:
     url: jdbc:postgresql://localhost:5433/carrental
     user: postgres
     password: postgres
+springdoc:
+  api-docs:
+    path: /api-docs
+server:
+  port: 8081

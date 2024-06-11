@@ -1,5 +1,6 @@
 package com.example.carrental.security.filter;
 
+import com.example.carrental.exception.AuthException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

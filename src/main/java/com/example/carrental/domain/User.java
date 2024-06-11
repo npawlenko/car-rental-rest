@@ -2,6 +2,7 @@ package com.example.carrental.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User implements UserDetails {
+public class User implements UserDetails, DomainEntity<Long> {
     public static final String TABLE_NAME = "USERS";
     public static final String SEQ_GEN = "USERS_SEQ_GEN";
     public static final String SEQ_NAME = "USERS_SEQ";

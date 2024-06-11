@@ -3,12 +3,14 @@ package com.example.carrental.service;
 import com.example.carrental.domain.Car;
 import com.example.carrental.mapper.CarMapper;
 import com.example.carrental.model.dto.CarDto;
+import com.example.carrental.model.dto.RentalDto;
 import com.example.carrental.repository.CarRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.hateoas.EntityModel;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,10 +44,10 @@ public class CarServiceTest {
         when(carMapper.toDto(car)).thenReturn(carDto);
 
         // Act
-        CarDto result = carService.findById(carId);
+        EntityModel<CarDto> result = carService.findById(carId);
 
         // Assert
-        assertEquals(carDto.getId(), result.getId());
+        assertEquals(carDto.getId(), result.getContent().getId());
     }
 
     @Test
@@ -68,12 +70,12 @@ public class CarServiceTest {
         when(carMapper.toDto(car2)).thenReturn(carDto2);
 
         // Act
-        List<CarDto> result = carService.findAll();
+        List<EntityModel<CarDto>> result = carService.findAll();
 
         // Assert
         assertEquals(carDtos.size(), result.size());
-        assertEquals(carDtos.get(0).getId(), result.get(0).getId());
-        assertEquals(carDtos.get(1).getId(), result.get(1).getId());
+        assertEquals(carDtos.get(0).getId(), result.get(0).getContent().getId());
+        assertEquals(carDtos.get(1).getId(), result.get(1).getContent().getId());
     }
 
     @Test
@@ -87,10 +89,10 @@ public class CarServiceTest {
         when(carRepository.save(car)).thenReturn(car);
 
         // Act
-        CarDto result = carService.create(carDto);
+        EntityModel<CarDto> result = carService.create(carDto);
 
         // Assert
-        assertEquals(carDto, result);
+        assertEquals(carDto, result.getContent());
     }
 
     @Test
@@ -107,10 +109,10 @@ public class CarServiceTest {
         when(carMapper.toDto(car)).thenReturn(carDto);
 
         // Act
-        CarDto result = carService.update(carId, carDto);
+        EntityModel<CarDto> result = carService.update(carId, carDto);
 
         // Assert
-        assertEquals(carDto.getId(), result.getId());
+        assertEquals(carDto.getId(), result.getContent().getId());
     }
 
     @Test

@@ -6,6 +6,7 @@ import com.example.carrental.model.enums.Fuel;
 import com.example.carrental.model.enums.Transmission;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = Car.TABLE_NAME)
@@ -15,7 +16,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Car {
+public class Car implements DomainEntity<Long> {
     public static final String TABLE_NAME = "CARS";
     public static final String SEQ_GEN = "CARS_SEQ_GEN";
     public static final String SEQ_NAME = "CARS_SEQ";

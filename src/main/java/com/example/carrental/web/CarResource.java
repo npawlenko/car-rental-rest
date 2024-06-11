@@ -6,6 +6,8 @@ import com.example.carrental.security.annotation.RequireAdminRole;
 import com.example.carrental.service.CarService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,19 +20,19 @@ public class CarResource extends AbstractCrudResource<Car, CarDto, Long> {
 
     @Override
     @RequireAdminRole
-    public CarDto create(CarDto carDto) {
+    public EntityModel<CarDto> create(CarDto carDto) {
         return super.create(carDto);
     }
 
     @Override
     @RequireAdminRole
-    public CarDto update(Long id, CarDto carDto) {
+    public EntityModel<CarDto> update(Long id, CarDto carDto) {
         return super.update(id, carDto);
     }
 
     @Override
     @RequireAdminRole
-    public void deleteById(Long id) {
-        super.deleteById(id);
+    public ResponseEntity<Void> deleteById(Long id) {
+        return super.deleteById(id);
     }
 }

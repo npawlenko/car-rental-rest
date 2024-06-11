@@ -1,37 +1,41 @@
 package com.example.carrental.web;
 
+import com.example.carrental.domain.DomainEntity;
 import com.example.carrental.service.AbstractCrudService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public abstract class AbstractCrudResource<T, DTO, ID> {
+public abstract class AbstractCrudResource<T extends DomainEntity<ID>, DTO, ID> {
     protected abstract AbstractCrudService<T, DTO, ID> getService();
 
     @GetMapping("/{id}")
-    public DTO findById(@PathVariable ID id) {
+    public EntityModel<DTO> findById(@PathVariable ID id) {
         return getService().findById(id);
     }
 
     @GetMapping
-    public List<DTO> findAll() {
+    public List<EntityModel<DTO>> findAll() {
         return getService().findAll();
     }
 
     @PostMapping
-    public DTO create(@RequestBody DTO dto) {
+    public EntityModel<DTO> create(@RequestBody DTO dto) {
         return getService().create(dto);
     }
 
-    @PutMapping
-    public DTO update(@PathVariable ID id, @RequestBody DTO dto) {
+    @PutMapping("/{id}")
+    public EntityModel<DTO> update(@PathVariable ID id, @RequestBody DTO dto) {
         return getService().update(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable ID id) {
+    public ResponseEntity<Void> deleteById(@PathVariable ID id) {
         getService().deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

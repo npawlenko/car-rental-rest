@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.hateoas.EntityModel;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -80,7 +81,7 @@ public class RentalServiceTest {
             when(rentalMapper.toDto(rental2)).thenReturn(rentalDto);
 
             // Act
-            List<RentalDto> result = rentalService.findAll();
+            List<EntityModel<RentalDto>> result = rentalService.findAll();
 
             // Assert
             assertEquals(2, result.size());
@@ -102,7 +103,7 @@ public class RentalServiceTest {
             when(rentalMapper.toDto(rental2)).thenReturn(rentalDto);
 
             // Act
-            List<RentalDto> result = rentalService.findAll();
+            List<EntityModel<RentalDto>> result = rentalService.findAll();
 
             // Assert
             assertEquals(2, result.size());
@@ -122,11 +123,11 @@ public class RentalServiceTest {
             when(rentalMapper.toDto(rental)).thenReturn(rentalDto);
 
             // Act
-            RentalDto result = rentalService.create(rentalDto);
+            EntityModel<RentalDto> result = rentalService.create(rentalDto);
 
             // Assert
             assertNotNull(result);
-            assertEquals(rentalDto, result);
+            assertEquals(rentalDto, result.getContent());
         }
     }
 
@@ -145,11 +146,11 @@ public class RentalServiceTest {
         when(rentalMapper.toDto(rental)).thenReturn(updatedRentalDto);
 
         // Act
-        RentalDto result = rentalService.update(id, updatedRentalDto);
+        EntityModel<RentalDto> result = rentalService.update(id, updatedRentalDto);
 
         // Assert
         assertNotNull(result);
-        assertEquals(updatedRentalDto, result);
+        assertEquals(updatedRentalDto, result.getContent());
     }
 
     @Test

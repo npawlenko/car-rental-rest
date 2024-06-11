@@ -11,8 +11,12 @@ import com.example.carrental.model.dto.RentalDto;
 import com.example.carrental.repository.CarRepository;
 import com.example.carrental.repository.RentalRepository;
 import com.example.carrental.security.SecurityUtils;
+import com.example.carrental.web.CarResource;
+import com.example.carrental.web.RentalResource;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,17 +32,24 @@ public class RentalService extends AbstractCrudService<Rental, RentalDto, Long> 
     private final CarRepository carRepository;
 
     @Override
-    public RentalDto findById(Long id) {
+    protected void addLinks(EntityModel<RentalDto> model, Long id) {
+        model.add(
+                WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RentalResource.class).findById(id)).withSelfRel()
+        );
+    }
+
+    @Override
+    public EntityModel<RentalDto> findById(Long id) {
         User user = SecurityUtils.getCurrentUser().orElseThrow(() -> new ClientRuntimeException("You should be logged in to access this endpoint"));
         Rental rental = getRepository().findById(id).orElseThrow(NotFoundException::new);
         if (!SecurityUtils.hasRole(user, RoleEnum.ADMIN) && !rental.getUser().equals(user)) {
             throw new NotFoundException();
         }
-        return getMapper().toDto(rental);
+        return EntityModel.of(getMapper().toDto(rental));
     }
 
     @Override
-    public List<RentalDto> findAll() {
+    public List<EntityModel<RentalDto>> findAll() {
         User user = SecurityUtils.getCurrentUser().orElseThrow(() -> new ClientRuntimeException("You should be logged in to access this endpoint"));
         List<Rental> rentalList;
         if (SecurityUtils.hasRole(user, RoleEnum.ADMIN)) {
@@ -49,11 +60,12 @@ public class RentalService extends AbstractCrudService<Rental, RentalDto, Long> 
         return rentalList
                 .stream()
                 .map(getMapper()::toDto)
+                .map(EntityModel::of)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public RentalDto create(RentalDto rentalDto) {
+    public EntityModel<RentalDto> create(RentalDto rentalDto) {
         User user = SecurityUtils.getCurrentUser().orElseThrow(() -> new ClientRuntimeException("You should be logged in to access this endpoint"));
         if (SecurityUtils.hasRole(user, RoleEnum.ADMIN)) {
             throw new ClientRuntimeException("Can not rent as admin");
@@ -68,11 +80,11 @@ public class RentalService extends AbstractCrudService<Rental, RentalDto, Long> 
         rental.setCar(car);
 
         Rental savedRental = getRepository().save(rental);
-        return getMapper().toDto(savedRental);
+        return EntityModel.of(getMapper().toDto(savedRental));
     }
 
     @Override
-    public RentalDto update(Long id, RentalDto rentalDto) {
+    public EntityModel<RentalDto> update(Long id, RentalDto rentalDto) {
         Rental rental = getRepository().findById(id).orElseThrow(NotFoundException::new);
         Car car = carRepository.findById(rentalDto.getCar().getId()).orElseThrow(() -> new NotFoundException("Car was not found"));
         if (getRepository().existsByCarIdAndDateRangeExcludingRentalId(car.getId(), rentalDto.getDateFrom(), rentalDto.getDateTo(), id)) {
@@ -81,7 +93,7 @@ public class RentalService extends AbstractCrudService<Rental, RentalDto, Long> 
 
         getMapper().partialUpdate(rentalDto, rental);
         Rental savedRental = getRepository().save(rental);
-        return getMapper().toDto(savedRental);
+        return EntityModel.of(getMapper().toDto(savedRental));
     }
 
     @Override

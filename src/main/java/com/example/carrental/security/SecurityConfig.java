@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/auth/**", "/api-docs", "/swagger-ui/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .anonymous(AbstractHttpConfigurer::disable)

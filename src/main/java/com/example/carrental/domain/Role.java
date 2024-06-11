@@ -2,6 +2,7 @@ package com.example.carrental.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
@@ -12,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Role implements GrantedAuthority {
+public class Role implements GrantedAuthority, DomainEntity<Long> {
 
     public static final String TABLE_NAME = "ROLES";
     public static final String SEQ_GEN = "ROLES_SEQ_GEN";

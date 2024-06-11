@@ -2,6 +2,7 @@ package com.example.carrental.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Rental {
+public class Rental implements DomainEntity<Long> {
     public static final String TABLE_NAME = "RENTALS";
     public static final String SEQ_GEN = "RENTALS_SEQ_GEN";
     public static final String SEQ_NAME = "RENTALS_SEQ";
